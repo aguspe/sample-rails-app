@@ -55,6 +55,7 @@ group :test do
   gem 'minitest-reporters'
   gem 'guard'
   gem 'guard-minitest'
+  gem 'rexml'
 end
 
 group :production do
