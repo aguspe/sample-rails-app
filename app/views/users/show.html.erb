@@ -1,0 +1,21 @@
+<% provide(:title, @user.name) %>
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+	<aside class="col-md-4">
+		<section>
+			<h1>
+				<%= @user.name %>
+			</h1>
+			<% if @user.avatar.attached? %>
+				<%= image_tag url_for(@user.avatar), size: '250x250' %>
+			<% end %>
+		</section>
+	</aside>
+	<div>
+	</div>
+	<h2>Bio:
+		<p><%= @user.bio %></p>
+	</h2>
+</div>
+<%= link_to 'Back', users_path %>
