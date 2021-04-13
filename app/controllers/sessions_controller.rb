@@ -7,30 +7,24 @@ class SessionsController < ApplicationController
   end
 
   # GET /sessions/1 or /sessions/1.json
-  def show
-  end
+  def show; end
 
   # GET /sessions/new
-  def new
-    @session = Session.new
-  end
+  def new; end
 
   # GET /sessions/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /sessions or /sessions.json
   def create
-    @session = Session.new(session_params)
+    user = User.find_by_email(params[:session][:email].downcase)
 
-    respond_to do |format|
-      if @session.save
-        format.html { redirect_to @session, notice: "Session was successfully created." }
-        format.json { render :show, status: :created, location: @session }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @session.errors, status: :unprocessable_entity }
-      end
+    if user&.authenticate(params[:session][:password])
+      log_in user
+      redirect_to user
+    else
+      flash.now[:danger] = 'Invalid email/password combination'
+      render 'new'
     end
   end
 
@@ -57,13 +51,14 @@ class SessionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_session
-      @session = Session.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def session_params
-      params.fetch(:session, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_session
+    @session = Session.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def session_params
+    params.fetch(:session, {})
+  end
 end
