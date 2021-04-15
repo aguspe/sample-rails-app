@@ -1,0 +1,26 @@
+class SessionsController < ApplicationController
+
+  def new; end
+
+  # POST /sessions or /sessions.json
+  def create
+    user = User.find_by_email(params[:session][:email].downcase)
+
+    if user&.authenticate(params[:session][:password])
+      log_in user
+      redirect_to user
+    else
+      flash.now[:danger] = 'Invalid email/password combination'
+      render 'new'
+    end
+  end
+
+  # PATCH/PUT /sessions/1 or /sessions/1.json
+  def update; end
+
+  # DELETE /sessions/1 or /sessions/1.json
+  def destroy
+    log_out
+    redirect_to root_url
+  end
+end

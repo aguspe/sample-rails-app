@@ -1,0 +1,10 @@
+<%= form_with(url: login_path, scope: :session, local: true) do |f| %>
+		<%= f.label :email, 'Email Address' %>:
+		<%= f.text_field :email %><br>
+		<%= f.label :password, "User's password" %>:
+		<%= f.password_field :password %><br>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
