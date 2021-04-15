@@ -10,4 +10,9 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 5, message: 'The password is too short' },
                        format: { with: PASSWORD_FORMAT, message: 'The password has the wrong format' }
   has_one_attached :avatar
+
+  def self.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
 end
