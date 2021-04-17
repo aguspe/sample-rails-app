@@ -63,4 +63,8 @@ class UserTest < ActiveSupport::TestCase
     @user.password = @user.password_confirmation = ''
     assert_not @user.valid?, "Password shouldn't be empty"
   end
+
+  test 'authenticated? should return false for user with nil digest' do
+    assert_not @user.authenticated? ''
+  end
 end
