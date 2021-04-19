@@ -8,7 +8,8 @@ class User < ApplicationRecord
                     uniqueness: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 5, message: 'The password is too short' },
-                       format: { with: PASSWORD_FORMAT, message: 'The password has the wrong format' }
+                       format: { with: PASSWORD_FORMAT, message: 'The password has the wrong format' },
+                       allow_nil: true
   has_one_attached :avatar
   attr_accessor :remember_token
 

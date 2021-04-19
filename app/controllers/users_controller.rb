@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
-
+  before_action :require_log_in, only: %i[index show edit update destroy]
+  before_action :correct_user, only: %i[edit update]
   # GET /users or /users.json
   def index
     @users = User.all
@@ -17,7 +17,9 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit; end
+  def edit
+    @user = User.find(params[:id])
+  end
 
   # POST /users or /users.json
   def create
@@ -37,6 +39,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
+    @user = User.find(params[:id])
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
@@ -50,7 +53,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    @user.destroy
+    User.find(params[:id]).destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
@@ -67,5 +70,18 @@ class UsersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def user_params
     params.fetch(:user, {}).permit(:name, :email, :password, :password_confirmation, :bio, :avatar)
+  end
+
+  def require_log_in
+    unless logged_in?
+      store_location
+      flash[:danger] = 'Plase log in'
+      redirect_to login_url
+    end
+  end
+
+  def correct_user
+    set_user
+    redirect_to root_url unless current_user? @user
   end
 end

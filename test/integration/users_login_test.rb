@@ -21,8 +21,9 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_template 'sessions/new'
     post login_path, params: { session: { email: @user.email, password: 'password' } }
     assert logged_in?
-    assert_redirected_to @user
+    assert_redirected_to root_path
     follow_redirect!
+    get user_path @user
     assert_template 'users/show'
     assert_select 'a[href=?]', login_path, count: 0
     assert_select 'a[href=?]', logout_path
@@ -34,8 +35,9 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_template 'sessions/new'
     post login_path, params: { session: { email: @user.email, password: 'password' } }
     assert logged_in?
-    assert_redirected_to @user
+    assert_redirected_to root_path
     follow_redirect!
+    get user_path @user
     assert_template 'users/show'
     assert_select 'a[href=?]', login_path, count: 0
     assert_select 'a[href=?]', logout_path
@@ -54,8 +56,9 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_template 'sessions/new'
     post login_path, params: { session: { email: @user.email, password: 'password' } }
     assert logged_in?
-    assert_redirected_to @user
+    assert_redirected_to root_path
     follow_redirect!
+    get user_path @user
     assert_template 'users/show'
     assert_select 'a[href=?]', login_path, count: 0
     assert_select 'a[href=?]', logout_path
