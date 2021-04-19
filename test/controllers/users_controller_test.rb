@@ -73,4 +73,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     } }
     assert_redirected_to root_url
   end
+
+  test 'logged in user should get users' do
+    log_in_as(@user)
+    get users_url
+    assert_response :success
+  end
+
+  test "anonymous shouldn't get users" do
+    get users_url
+    assert_redirected_to login_path
+  end
 end
