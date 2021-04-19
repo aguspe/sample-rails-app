@@ -3,7 +3,11 @@ class UsersController < ApplicationController
   before_action :correct_user, only: %i[edit update]
   # GET /users or /users.json
   def index
-    @users = User.all
+    @users = User.page(params[:page])
+    respond_to do |format|
+      format.html
+      format.json { render json: @locations }
+    end
   end
 
   # GET /users/1 or /users/1.json
