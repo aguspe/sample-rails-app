@@ -6,12 +6,15 @@
 		<th colspan="3"></th>
 	</tr>
 	</thead>
- <%= paginate @users %>
+	<%= paginate @users %>
 	<tbody>
 	<% @users.each do |user| %>
 		<p><%= link_to user.name, user_path(user) %></p>
 		<% if user.avatar.attached? %>
 			<%= image_tag url_for(user.avatar), size: '100x100', style: 'float:left' %>
+		<% end %>
+		<% if current_user.admin && !current_user?(@user) %>
+			<%= link_to 'delete', user, method: :delete, data: { confirm: 'You sure' } %>
 		<% end %>
 	<% end %>
 	</tbody>
