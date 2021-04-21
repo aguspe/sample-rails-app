@@ -5,7 +5,9 @@ User.create!(name: 'Admin',
              email: 'agustin@admin.com',
              password: '12341234',
              password_confirmation: '12341234',
-             admin: true)
+             admin: true,
+             activated: true,
+             activated_at: Time.zone.now)
 
 
 # Creates 51 users
@@ -16,5 +18,7 @@ User.create!(name: 'Admin',
   User.create!(name: name,
                email: email,
                password: password,
-               password_confirmation: password)
+               password_confirmation: password,
+               activated: true,
+               activated_at: Time.zone.now)
 end
