@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        UserMailer.account_activation(@user).deliver_now
+        @user.send_activation_email
         flash[:info] = 'Please check your email to activate your account'
         format.html { redirect_to root_url, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
