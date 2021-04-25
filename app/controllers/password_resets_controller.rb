@@ -1,4 +1,7 @@
 class PasswordResetsController < ApplicationController
+  before_action :get_user, only: [:edit, :update]
+  before_action :valid_user, only: [:edit, :update]
+
   def new; end
 
   def create
@@ -6,13 +9,23 @@ class PasswordResetsController < ApplicationController
     if @user
       @user.create_reset_digest
       @user.send_password_reset_email
-      flash[:info] = "Email sent with password reset instructions"
+      flash[:info] = 'Email sent with password reset instructions'
       redirect_to root_url
     else
-      flash.now[:danger] = "Email address not found"
+      flash.now[:danger] = 'Email address not found'
       render 'new'
     end
   end
 
   def edit; end
+
+  private
+
+  def find_user_by_email
+    @user = User.find_by_email(params[:email])
+  end
+
+  def valid_user
+    redirect_to root_url unless @user&.activated? && @user&.authenticated?(:reset, params[:id])
+  end
 end
