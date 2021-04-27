@@ -12,7 +12,7 @@ class User < ApplicationRecord
                        format: { with: PASSWORD_FORMAT, message: 'The password has the wrong format' },
                        allow_nil: true
   has_one_attached :avatar
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
 
   def remember
     self.remember_token = User.new_token
@@ -37,6 +37,20 @@ class User < ApplicationRecord
 
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest,  User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
   end
 
   private
