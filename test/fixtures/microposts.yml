@@ -2,8 +2,10 @@
 
 one:
   content: MyText
-  user: one
+  created_at: <%= 10.minutes.ago %>
+  user: agustin
 
 two:
   content: MyText
-  user: two
+  created_at: <%= 10.minutes.ago %>
+  user: agustin
