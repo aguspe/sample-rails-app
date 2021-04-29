@@ -28,4 +28,12 @@ class MicropostTest < ActiveSupport::TestCase
   test 'order should be the most recent first' do
     assert_equal microposts(:most_recent), Micropost.first
   end
+
+  test 'Microposts should be deleted when the user is deleted' do
+    @user.save
+    @user.microposts.create!(content: 'Hello world')
+    assert_difference 'Micropost.count', -1 do
+      @user.destroy
+    end
+  end
 end
