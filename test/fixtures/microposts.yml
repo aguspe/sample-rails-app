@@ -9,3 +9,10 @@ two:
   content: MyText
   created_at: <%= 10.minutes.ago %>
   user: agustin
+
+<% 30.times do |n| %>
+micropost_<%= n %>:
+  content: hello
+  created_at: <%= 42.days.ago %>
+  user: agustin
+<% end %>

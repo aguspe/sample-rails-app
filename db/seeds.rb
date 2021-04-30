@@ -22,3 +22,9 @@ User.create!(name: 'Admin',
                activated: true,
                activated_at: Time.zone.now)
 end
+
+users = User.all
+users.each do |user|
+  content = Faker::Lorem.sentence(word_count: 4)
+  user.microposts.create!(content: content)
+end
