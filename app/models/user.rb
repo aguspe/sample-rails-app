@@ -13,6 +13,7 @@ class User < ApplicationRecord
                        allow_nil: true
   has_one_attached :avatar
   attr_accessor :remember_token, :activation_token, :reset_token
+  has_many :microposts, dependent: :destroy
 
   def remember
     self.remember_token = User.new_token

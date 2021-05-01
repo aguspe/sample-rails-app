@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   # GET /users/1 or /users/1.json
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.page(params[:page])
   end
 
   # GET /users/new
@@ -75,14 +76,6 @@ class UsersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def user_params
     params.fetch(:user, {}).permit(:name, :email, :password, :password_confirmation, :bio, :avatar)
-  end
-
-  def require_log_in
-    unless logged_in?
-      store_location
-      flash[:danger] = 'Plase log in'
-      redirect_to login_url
-    end
   end
 
   def correct_user

@@ -1,0 +1,6 @@
+<% if current_user.avatar.attached? %>
+	<%= image_tag url_for(current_user.avatar), size: '250x250' %>
+<% end %>
+<h1><%= current_user.name %></h1>
+<span><%= link_to 'view mi profile', current_user %></span>
+<span><%= pluralize(current_user.microposts.count, 'micropost') %></span>
