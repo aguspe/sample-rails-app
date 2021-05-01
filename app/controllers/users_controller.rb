@@ -78,14 +78,6 @@ class UsersController < ApplicationController
     params.fetch(:user, {}).permit(:name, :email, :password, :password_confirmation, :bio, :avatar)
   end
 
-  def require_log_in
-    unless logged_in?
-      store_location
-      flash[:danger] = 'Plase log in'
-      redirect_to login_url
-    end
-  end
-
   def correct_user
     set_user
     redirect_to root_url unless current_user? @user
