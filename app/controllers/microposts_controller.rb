@@ -6,6 +6,7 @@ class MicropostsController < ApplicationController
       flash[:success] = 'Mircropost created!'
       redirect_to :root and return
     end
+    @feed_items = current_user.feed.page(params[:page])
     render 'static_pages/home'
   end
 
