@@ -8,4 +8,7 @@
 										data: { confirm: 'You sure?' } %>
 		<% end %>
   </span>
+	<% if micropost.image.attached? %>
+		<%= image_tag url_for(micropost.image), size: '250x250' %>
+	<% end %>
 </li>
